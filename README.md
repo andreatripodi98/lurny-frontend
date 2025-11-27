@@ -27,3 +27,5 @@ Frontend: React + Tailwind
 Backend: Spring Boot + PostgreSQL
 Auth: JWT
 Extra: React Markdown
+
+Onde evitare conflitti ho postato il backend come repository differente https://github.com/andreatripodi98/Lurny
