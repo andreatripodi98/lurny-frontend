@@ -2,7 +2,7 @@ export default function Schools() {
   return (
     <div className="w-full bg-amber-50 text-stone-900">
 
-      {/* HERO */}
+      
       <section className="text-center px-6 py-20 lg:py-28 max-w-5xl mx-auto">
         <h1 className="text-4xl lg:text-6xl font-bold leading-tight">
           Our Lurny Partner Schools
@@ -16,7 +16,7 @@ export default function Schools() {
         </p>
       </section>
 
-      {/* SECTION 1 */}
+      
       <section className="px-6 py-16 max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
 
         <div>
@@ -41,7 +41,6 @@ export default function Schools() {
 
       </section>
 
-      {/* SECTION 2 */}
       <section className="px-6 py-16 max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
 
         <div className="rounded-xl overflow-hidden shadow-lg order-last md:order-first">
@@ -66,7 +65,7 @@ export default function Schools() {
 
       </section>
 
-      {/* SECTION 3 */}
+      
       <section className="px-6 py-20 text-center max-w-6xl mx-auto">
         <h2 className="text-3xl font-bold mb-6">
           Modern Facilities, Motivated Students
@@ -107,7 +106,7 @@ export default function Schools() {
         </div>
       </section>
 
-      {/* CTA */}
+      
       <section className="px-6 py-16 text-center">
         <h2 className="text-3xl font-bold mb-4">
           Discover Lurny Partner Schools

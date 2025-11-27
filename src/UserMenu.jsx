@@ -8,7 +8,7 @@ export default function UserMenu() {
   const [editing, setEditing] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  // Stati locali (compilati dopo il GET)
+  // Stati locali del form
   const [username, setUsername] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -22,39 +22,38 @@ export default function UserMenu() {
     "/avatars/Avatar4.png",
   ];
 
-  // GET AL MOUNT → /users/me
+  // GET /users/me
   useEffect(() => {
-    const fetchUser = async () => {
+    async function loadUser() {
       const token = localStorage.getItem("accessToken");
       if (!token) return;
 
-      const res = await fetch("http://localhost:3001/users/me", {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      try {
+        const res = await fetch("http://localhost:3001/users/me", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
 
-      if (!res.ok) return;
+        if (!res.ok) return;
 
-      const data = await res.json();
+        const data = await res.json();
 
-      // Aggiorno UserContext
-      setUser(data);
+        setUser(data);
 
-      // Aggiorno stati locali
-      setUsername(data.username ?? "");
-      setFirstName(data.firstName ?? "");
-      setLastName(data.lastName ?? "");
-      setEmail(data.email ?? "");
-      setAvatar(data.avatar ?? "/avatars/default.png");
-    };
+        setUsername(data.username || "");
+        setFirstName(data.firstName || "");
+        setLastName(data.lastName || "");
+        setEmail(data.email || "");
+        setAvatar(data.avatar || "/avatars/default.png");
+      } catch (err) {
+        console.error("Errore GET:", err);
+      }
+    }
 
-    fetchUser();
+    loadUser();
   }, []);
 
-  // PUT per salvare modifiche
-  const saveChanges = async () => {
+  // PUT /users/me
+  async function saveChanges() {
     const token = localStorage.getItem("accessToken");
     if (!token) return;
 
@@ -68,61 +67,60 @@ export default function UserMenu() {
       avatar,
     };
 
-    const res = await fetch("http://localhost:3001/users/me", {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify(body),
-    });
+    try {
+      const res = await fetch("http://localhost:3001/users/me", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(body),
+      });
 
-    if (!res.ok) {
-      console.error("Errore PUT:", res.status);
+      if (!res.ok) {
+        console.error("Errore PUT:", res.status);
+        setLoading(false);
+        return;
+      }
+
+      const updated = await res.json();
+
+      setUser(updated);
+      localStorage.setItem("user", JSON.stringify(updated));
+
+      setEditing(false);
       setLoading(false);
-      return;
+    } catch (err) {
+      console.error("Errore PUT:", err);
+      setLoading(false);
     }
+  }
 
-    const updated = await res.json();
-
-    // aggiorno UserContext
-    setUser(updated);
-
-    // aggiorno localStorage
-    localStorage.setItem("user", JSON.stringify(updated));
-
-    setLoading(false);
-    setEditing(false);
-  };
-
-  const logout = () => {
+  function logout() {
     localStorage.removeItem("accessToken");
     localStorage.removeItem("user");
     setUser(null);
     window.location.href = "/login";
-  };
+  }
 
-  // Finché non arriva il GET, il menu non compare
   if (!user) return null;
 
   return (
     <Popover className="relative">
       <PopoverButton className="flex items-center">
         <img
-          src={avatar || "/avatars/default.png"}
+          src={avatar}
           className="w-10 h-10 rounded-full border shadow cursor-pointer object-cover"
         />
       </PopoverButton>
 
       <PopoverPanel
         transition
-        className="absolute right-0 mt-3 
-                   w-screen max-w-lg
-                   bg-white rounded-2xl shadow-2xl ring-1 ring-black/5
-                   p-8 overflow-y-auto
-                   transition data-closed:opacity-0 data-closed:-translate-y-1"
+        className="absolute right-0 mt-3 w-screen max-w-lg bg-white 
+                   rounded-2xl shadow-2xl ring-1 ring-black/5 p-8 
+                   overflow-y-auto transition data-closed:opacity-0 
+                   data-closed:-translate-y-1"
       >
-        {/* Header */}
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-2xl font-bold text-gray-900">Profile</h2>
 
@@ -134,7 +132,6 @@ export default function UserMenu() {
           </button>
         </div>
 
-        {/* Avatar */}
         <div className="flex gap-6 items-center mb-8">
           <img
             src={avatar}
@@ -158,7 +155,6 @@ export default function UserMenu() {
           )}
         </div>
 
-        {/* DATI */}
         {!editing ? (
           <div className="space-y-3 text-gray-800">
             <p><strong>Username:</strong> {username}</p>
@@ -195,7 +191,6 @@ export default function UserMenu() {
           </div>
         )}
 
-        {/* BUTTON SALVA */}
         {editing && (
           <button
             onClick={saveChanges}
@@ -205,7 +200,6 @@ export default function UserMenu() {
           </button>
         )}
 
-        {/* Logout */}
         <button
           onClick={logout}
           className="mt-8 w-full py-2 rounded-xl text-red-500 bg-red-50 font-medium hover:bg-red-100"
@@ -216,3 +210,4 @@ export default function UserMenu() {
     </Popover>
   );
 }
+

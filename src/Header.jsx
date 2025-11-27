@@ -30,14 +30,14 @@ export default function Header() {
     <header className="bg-amber-50 header">
       <nav className="mx-auto flex max-w-7xl items-center justify-between lg:px-8">
 
-        {/* LOGO */}
+        
         <div className="flex flex-1">
           <Link to="/" className="flex items-center gap-2">
             <img src={lurnyLogo} className="h-auto w-30 lurny" alt="Lurny" />
           </Link>
         </div>
 
-        {/* MOBILE BURGER */}
+        
         <div className="flex lg:hidden">
           <button
             onClick={() => setMobileMenuOpen(true)}
@@ -47,10 +47,10 @@ export default function Header() {
           </button>
         </div>
 
-        {/* DESKTOP MENU */}
+        
         <div className="hidden lg:flex lg:gap-x-12">
 
-          {/* LANGUAGES DROPDOWN */}
+          
           <div className="relative">
             <button
               className="flex items-center gap-x-1 text-lg font-semibold"
@@ -90,7 +90,7 @@ export default function Header() {
           </Link>
         </div>
 
-        {/* LOGIN / USER MENU DESKTOP */}
+        
         <div className="hidden lg:flex lg:flex-1 lg:justify-end">
           {!user ? (
             <Link
@@ -107,7 +107,7 @@ export default function Header() {
         </div>
       </nav>
 
-      {/* MOBILE MENU */}
+      
       <Dialog
         open={mobileMenuOpen}
         onClose={setMobileMenuOpen}
@@ -131,10 +131,10 @@ export default function Header() {
             </button>
           </div>
 
-          {/* MENU MOBILE */}
+          
           <div className="mt-6 space-y-6">
 
-            {/* LANGUAGES */}
+          
             <div>
               <button
                 onClick={() => setMobileLangOpen(!mobileLangOpen)}

@@ -1,9 +1,7 @@
 import "./App.css";
 import { Routes, Route, useLocation } from "react-router-dom";
-
 import Header from "./Header";
 import Footer from "./Footer";
-
 import About from "./About";
 import Plans from "./Plans";
 import Home from "./Home";
@@ -13,7 +11,6 @@ import CategoryChoice from "./CategoryChoice";
 import LessonsList from "./LessonsList";
 import LessonDetail from "./LessonDetail";
 import NotFound from "./NotFound";
-import UserMenu from "./UserMenu";
 
 export default function App() {
   const location = useLocation();

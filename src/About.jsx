@@ -4,10 +4,10 @@ export default function About() {
   return (
     <div className="bg-amber-50">
 
-      {/* ============ HERO SECTION ============ */}
+      
       <section className="relative isolate px-6 pt-24 lg:px-8">
         
-        {/* Blob sfocato */}
+        
         <div
           aria-hidden="true"
           className="absolute inset-x-0 top-0 -z-10 flex justify-center overflow-hidden blur-3xl"
@@ -21,7 +21,7 @@ export default function About() {
           ></div>
         </div>
 
-              {/* Hero content */}
+             
         
         <div className="mx-auto max-w-3xl text-center pt-12">
           <img
@@ -41,7 +41,7 @@ export default function About() {
         </div>
       </section>
 
-      {/* ============ BIG IMAGE ============ */}
+      
       <div className="mt-20 sm:mt-28 mx-auto max-w-6xl px-6">
         <img
           src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?q=80&w=2000"
@@ -50,10 +50,10 @@ export default function About() {
         />
       </div>
 
-      {/* ============ CONTENT SECTIONS ============ */}
+      
       <div className="mx-auto max-w-5xl px-6 py-24 sm:py-32 space-y-32">
 
-        {/* WHO I AM */}
+        
         <section className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           <div>
             <h2 className="text-4xl font-semibold tracking-tight text-gray-900">
@@ -74,7 +74,7 @@ export default function About() {
           />
         </section>
 
-        {/* WHY I DO IT */}
+        
         <section className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           
           <img
@@ -97,7 +97,7 @@ export default function About() {
           </div>
         </section>
 
-        {/* PROJECTS / VISION */}
+        
         <section className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           <div>
             <h2 className="text-4xl font-semibold tracking-tight text-gray-900">

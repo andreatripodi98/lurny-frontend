@@ -3,10 +3,9 @@ import { createContext, useState, useEffect } from "react";
 export const UserContext = createContext(null);
 
 export function UserProvider({ children }) {
-
   const [user, setUser] = useState(() => {
-    const saved = localStorage.getItem("user");
-    return saved ? JSON.parse(saved) : null;
+    const stored = localStorage.getItem("user");
+    return stored ? JSON.parse(stored) : null;
   });
 
   useEffect(() => {

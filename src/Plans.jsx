@@ -46,7 +46,7 @@ export default function Plans() {
   return (
     <div className="bg-amber-50 px-6 py-20">
 
-      {/* HEADER */}
+      
       <div className="max-w-4xl mx-auto text-center mb-12">
         <h1 className="text-4xl sm:text-5xl font-bold text-gray-900">
           Choose the right plan for you
@@ -56,7 +56,7 @@ export default function Plans() {
         </p>
       </div>
 
-      {/* CARDS */}
+      
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-10 max-w-6xl mx-auto">
         {tiers.map((tier) => {
           const isSelected = selected === tier.id;

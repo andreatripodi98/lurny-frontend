@@ -5,10 +5,10 @@ export default function Footer() {
     <footer className="bg-amber-50 footer">
       <div className="max-w-7xl mx-auto px-6 py-6">
         
-        {/* TOP SECTION */}
+        
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
 
-          {/* LOGO + DESCRIPTION */}
+          
           <div>
             <h3 className="text-2xl font-bold text-stone-900">Lurny 🦦</h3>
             <p className="text-gray-600 mt-3 text-sm leading-relaxed max-w-xs">
@@ -17,7 +17,7 @@ export default function Footer() {
             </p>
           </div>
 
-          {/* COLUMN 1 — PRODUCT (hidden on mobile) */}
+          
           <div className="hidden md:block">
             <h4 className="font-semibold text-stone-900 mb-2 text-lg">Product</h4>
             <ul className="space-y-1 text-gray-700 text-sm">
@@ -28,7 +28,7 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* COLUMN 2 — COMPANY (hidden on mobile) */}
+         
           <div className="hidden md:block">
             <h4 className="font-semibold text-stone-900 mb-2 text-lg">Company</h4>
             <ul className="space-y-1 text-gray-700 text-sm">
@@ -39,7 +39,7 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* COLUMN 3 — SUPPORT (always visible) */}
+          
           <div>
             <h4 className="font-semibold text-stone-900 mb-2 text-lg">Support</h4>
             <ul className="space-y-1 text-gray-700 text-sm">
@@ -52,7 +52,7 @@ export default function Footer() {
 
         </div>
 
-        {/* DIVIDER */}
+       
         <div className="mt-6 pt-2 text-center text-gray-500 text-sm">
           © {new Date().getFullYear()} Lurny — All rights reserved.
         </div>
