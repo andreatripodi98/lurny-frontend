@@ -1,0 +1,24 @@
+@import "tailwindcss";
+
+.scrolling-bg {
+  background-color: #FFFBEB;
+  background-image: none;
+  height: auto; 
+}
+* {
+  font-family: "Elms Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 600;
+  font-style: normal;
+}
+
+@media (min-width: 640px) {
+  .scrolling-bg {
+    background-image: url('/src/assets/Bg.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    height: 500px;
+  }
+}
