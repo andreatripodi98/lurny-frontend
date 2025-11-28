@@ -15,42 +15,39 @@ export default function CategoryChoice() {
   const langCode = langMap[languageName];
 
   useEffect(() => {
-    async function loadCategories() {
-      try {
-        const response = await fetch("http://localhost:3001/lessons?size=9999");
-        const data = await response.json();
+    setLoading(true);
 
+    fetch("http://localhost:3001/lessons?size=9999")
+      .then((res) => res.json())
+      .then((data) => {
         const lessons = data.content;
 
-        const filtered = lessons.filter(
-          (lesson) => lesson.category && lesson.category.language === langCode
-        );
-
-        const unique = new Map();
-
-        filtered.forEach((lesson) => {
-          unique.set(lesson.category.id, lesson.category);
+        const filtered = lessons.filter((lesson) => {
+          if (lesson.category) {
+            return lesson.category.language === langCode;
+          }
+          return false;
         });
 
-        setCategories([...unique.values()]);
-      } catch (error) {
-        console.error("Errore:", error);
-      } finally {
+        const unique = [];
+        filtered.forEach((l) => {
+          if (!unique.some((u) => u.id === l.category.id)) {
+            unique.push(l.category);
+          }
+        });
+
+        setCategories(unique);
+      })
+      .catch((err) => {
+        console.log("Errore", err);
+      })
+      .finally(() => {
         setLoading(false);
-      }
-    }
-
-    if (!langCode) {
-      setCategories([]);
-      setLoading(false);
-      return;
-    }
-
-    loadCategories();
+      });
   }, [languageName]);
 
   const formattedName =
-    languageName.charAt(0).toUpperCase() + languageName.slice(1);
+    languageName && languageName[0].toUpperCase() + languageName.slice(1);
 
   return (
     <div className="bg-amber-50">

@@ -16,63 +16,70 @@ export default function Login() {
   const { setUser } = useContext(UserContext);
   const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
+  function handleSubmit(e) {
     e.preventDefault();
 
-    try {
-      if (isLogin) {
-        const res = await fetch("http://localhost:3001/auth/login", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ username, password }),
+    if (isLogin) {
+      fetch("http://localhost:3001/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, password }),
+      })
+        .then((res) => {
+          if (!res.ok) {
+            alert("Invalid credentials");
+            return null;
+          }
+          return res.json();
+        })
+        .then((data) => {
+          if (!data) return;
+
+          const token = data.accessToken;
+
+          fetch("http://localhost:3001/users/me", {
+            headers: { Authorization: "Bearer " + token },
+          })
+            .then((meRes) => meRes.json())
+            .then((me) => {
+              setUser(me);
+              localStorage.setItem("token", token);
+              navigate("/");
+            })
+            .catch(() => {
+              alert("Error loading profile");
+            });
+        })
+        .catch(() => {
+          alert("Server error");
         });
+    } else {
+      const body = {
+        username,
+        firstName,
+        lastName,
+        email,
+        password,
+      };
 
-        if (!res.ok) {
-          alert("Invalid credentials");
-          return;
-        }
-
-        const data = await res.json();
-        const token = data.accessToken;
-
-        const meRes = await fetch("http://localhost:3001/users/me", {
-          headers: { Authorization: `Bearer ${token}` },
+      fetch("http://localhost:3001/auth/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+      })
+        .then((res) => {
+          if (!res.ok) {
+            alert("Error during registration");
+            return;
+          }
+          alert("Account created! Now log in.");
+          setIsLogin(true);
+        })
+        .catch(() => {
+          alert("Server error");
         });
-
-        const me = await meRes.json();
-
-        setUser(me);
-        localStorage.setItem("token", token);
-
-        navigate("/");
-      } else {
-        const body = {
-          username,
-          firstName,
-          lastName,
-          email,
-          password,
-        };
-
-        const res = await fetch("http://localhost:3001/auth/register", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(body),
-        });
-
-        if (!res.ok) {
-          alert("Error during registration");
-          return;
-        }
-
-        alert("Account created! Now log in.");
-        setIsLogin(true);
-      }
-    } catch (err) {
-      console.error(err);
-      alert("Server error");
     }
-  };
+  }
 
   return (
     <div className="flex min-h-screen bg-amber-50">
@@ -189,7 +196,7 @@ export default function Login() {
                   <input
                     type="checkbox"
                     checked={showPassword}
-                    onChange={() => setShowPassword((prev) => !prev)}
+                    onChange={() => setShowPassword(!showPassword)}
                   />
                   Show password
                 </label>

@@ -7,35 +7,33 @@ export default function LessonsList() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    setLoading(true);
 
-    async function loadLessons() {
-      try {
-        const response = await fetch("http://localhost:3001/lessons?size=99999");
-
-        if (!response.ok) {
-          throw new Error("Errore HTTP: " + response.status);
+    fetch("http://localhost:3001/lessons?size=99999")
+      .then((res) => {
+        if (!res.ok) {
+          console.log("Errore HTTP:", res.status);
+          return null;
         }
+        return res.json();
+      })
+      .then((data) => {
+        if (!data) return;
 
-        const data = await response.json();
-        const allLessons = data.content;
+        const all = data.content;
 
-        const filteredLessons = allLessons.filter(
-          (lesson) => String(lesson.category.id) === String(categoryId)
-        );
+        const filtered = all.filter((lesson) => {
+          return String(lesson.category.id) === String(categoryId);
+        });
 
-        setLessons(filteredLessons);
-
-      } catch (error) {
-        console.error("Errore nel caricamento delle lezioni:", error);
-      } finally {
+        setLessons(filtered);
         setLoading(false);
-      }
-    }
-
-    loadLessons();
-
+      })
+      .catch((err) => {
+        console.log("Errore nel caricamento delle lezioni:", err);
+        setLoading(false);
+      });
   }, [categoryId]);
-
 
   return (
     <div className="bg-amber-50 px-4 py-10">

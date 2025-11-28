@@ -8,33 +8,32 @@ export default function LessonDetail() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    setLoading(true);
 
-    async function loadLesson() {
-      try {
-        const response = await fetch("http://localhost:3001/lessons?size=99999");
-
-        if (!response.ok) {
-          throw new Error("Errore HTTP: " + response.status);
+    fetch("http://localhost:3001/lessons?size=99999")
+      .then((res) => {
+        if (!res.ok) {
+          console.log("Errore HTTP:", res.status);
+          return null;
         }
+        return res.json();
+      })
+      .then((data) => {
+        if (!data) return;
 
-        const data = await response.json();
         const lessons = data.content;
 
-        const foundLesson = lessons.find(
-          (l) => String(l.id) === String(lessonId)
-        );
+        const found = lessons.find((l) => {
+          return String(l.id) === String(lessonId);
+        });
 
-        setLesson(foundLesson || null);
-
-      } catch (error) {
-        console.error("Errore nel fetch:", error);
-      } finally {
+        setLesson(found || null);
         setLoading(false);
-      }
-    }
-
-    loadLesson();
-
+      })
+      .catch((err) => {
+        console.log("Errore nel fetch:", err);
+        setLoading(false);
+      });
   }, [lessonId]);
 
   if (loading) {
@@ -77,4 +76,5 @@ export default function LessonDetail() {
     </div>
   );
 }
+
 
